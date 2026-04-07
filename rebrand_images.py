@@ -3,7 +3,7 @@
 Covers old E-BEE watermarks (top-left AND top-right) and stamps the
 new bee SVG logo in the TOP-RIGHT corner of all product images.
 """
-from PIL import Image, ImageDraw
+from PIL import Image
 import os, shutil, subprocess
 
 IMG_DIR   = '/Users/rosh/Documents/ebee/images'
@@ -40,19 +40,24 @@ logo_full = src.crop((max(0, min_x-pad), max(0, min_y-pad),
 logo_full.save(LOGO_CROP)
 print(f'  Logo cropped to {logo_full.size}')
 
-def sample_bg(img, x, y, radius=12):
-    """Average colour from a region, clamped to image bounds."""
+def has_old_logo(img, x0, y0, x1, y1, saturation_threshold=35):
+    """Return True if the region contains colourful (logo) pixels, not just grey/white."""
+    for y in range(y0, min(y1, img.size[1]), 4):
+        for x in range(x0, min(x1, img.size[0]), 4):
+            r, g, b = img.getpixel((x, y))[:3]
+            if max(r, g, b) - min(r, g, b) > saturation_threshold:
+                return True
+    return False
+
+def is_white_bg(img, sample_pts=None):
+    """Return True if the image background is near-white (r,g,b all > 230)."""
     w, h = img.size
-    pixels = []
-    for dx in range(-radius, radius+1, 3):
-        for dy in range(-radius, radius+1, 3):
-            nx, ny = max(0, min(w-1, x+dx)), max(0, min(h-1, y+dy))
-            p = img.getpixel((nx, ny))
-            pixels.append(p[:3])
-    r = sum(p[0] for p in pixels) // len(pixels)
-    g = sum(p[1] for p in pixels) // len(pixels)
-    b = sum(p[2] for p in pixels) // len(pixels)
-    return (r, g, b, 255)
+    pts = sample_pts or [(w//2, 10), (10, h//2), (w-10, h//2), (w//2, h-10)]
+    for x, y in pts:
+        r, g, b = img.getpixel((min(x, w-1), min(y, h-1)))[:3]
+        if r < 230 or g < 230 or b < 230:
+            return False
+    return True
 
 def process_image(filepath, logo):
     filename = os.path.basename(filepath)
@@ -66,19 +71,20 @@ def process_image(filepath, logo):
         shutil.copy2(filepath, backup)
 
     img = Image.open(filepath).convert('RGBA')
-    draw = ImageDraw.Draw(img)
     w, h = img.size
 
-    # ── Erase TOP-LEFT old watermark (scale with image size) ─────────────────
-    erase_w = min(170, int(w * 0.22))
-    erase_h = min(190, int(h * 0.22))
-    sample_offset = min(200, int(w * 0.28))
-    bg_tl = sample_bg(img, sample_offset, sample_offset)
-    draw.rectangle([0, 0, erase_w, erase_h], fill=bg_tl)
-
-    # ── Erase TOP-RIGHT old watermark ────────────────────────────────────────
-    bg_tr = sample_bg(img, w - sample_offset, sample_offset)
-    draw.rectangle([w - erase_w, 0, w, erase_h], fill=bg_tr)
+    # ── Erase old watermark only on white-background images (fill is invisible) ──
+    # Only erase the corner that actually contains the old coloured logo.
+    erase_w = min(190, int(w * 0.24))
+    erase_h = min(210, int(h * 0.26))
+    if is_white_bg(img):
+        from PIL import ImageDraw as _ID
+        draw = _ID.Draw(img)
+        white = (255, 255, 255, 255)
+        if has_old_logo(img, 0, 0, erase_w, erase_h):
+            draw.rectangle([0, 0, erase_w, erase_h], fill=white)
+        if has_old_logo(img, w - erase_w, 0, w, erase_h):
+            draw.rectangle([w - erase_w, 0, w, erase_h], fill=white)
 
     # ── Stamp new bee logo TOP-RIGHT ─────────────────────────────────────────
     # Scale logo to ~25% of image width, max 200px
