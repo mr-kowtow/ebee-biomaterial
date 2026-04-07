@@ -96,8 +96,13 @@
     img { display: block; max-width: 100%; }
 
     /* ── REAL IMAGES ── */
-    .product-img img, .cat-card-img > img, .app-img > img, .news-img > img, .hero-card-img > img {
+    .cat-card-img > img, .app-img > img, .news-img > img, .hero-card-img > img {
       position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+    }
+    .product-img img {
+      position: absolute; inset: 0; width: 100%; height: 100%;
+      object-fit: contain; object-position: center;
+      padding: 16px;
     }
     .about-img-box img { width: 100%; height: 100%; object-fit: cover; }
     .why-icon img { width: 46px; height: 46px; object-fit: contain; }
@@ -446,14 +451,7 @@
       position: relative;
       overflow: hidden;
     }
-    .p1 { background: linear-gradient(135deg, #f0f9f6, #d6f0e8); }
-    .p2 { background: linear-gradient(135deg, #f9f6f0, #f0e8d6); }
-    .p3 { background: linear-gradient(135deg, #f0f4f9, #d6e4f0); }
-    .p4 { background: linear-gradient(135deg, #f9f0f6, #f0d6ea); }
-    .p5 { background: linear-gradient(135deg, #f6f9f0, #e4f0d6); }
-    .p6 { background: linear-gradient(135deg, #f9f9f0, #f0f0d6); }
-    .p7 { background: linear-gradient(135deg, #f0f9f9, #d6f0f0); }
-    .p8 { background: linear-gradient(135deg, #f9f4f0, #f0dcd6); }
+    .p1, .p2, .p3, .p4, .p5, .p6, .p7, .p8 { background: #f7f7f7; }
 
     .product-img .view-btn {
       position: absolute;
