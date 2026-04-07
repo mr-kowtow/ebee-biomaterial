@@ -633,12 +633,28 @@
       justify-content: center;
       font-size: 52px;
     }
-    .news-card:nth-child(1) .news-img { background: linear-gradient(135deg, #e8f7f3, #b2e8d6); }
-    .news-card:nth-child(2) .news-img { background: linear-gradient(135deg, #fff3e8, #ffd6b2); }
-    .news-card:nth-child(3) .news-img { background: linear-gradient(135deg, #e8f0ff, #b2c8ff); }
-    .news-card:nth-child(4) .news-img { background: linear-gradient(135deg, #f0ffe8, #c8ffb2); }
-    .news-card:nth-child(5) .news-img { background: linear-gradient(135deg, #ffe8f0, #ffb2c8); }
-    .news-card:nth-child(6) .news-img { background: linear-gradient(135deg, #e8f7f3, #a8dcc8); }
+    .news-card:nth-child(1) .news-img { background: linear-gradient(135deg, #0a3528, #1a7a5e); }
+    .news-card:nth-child(2) .news-img { background: linear-gradient(135deg, #0d4035, #1e6b52); }
+    .news-card:nth-child(3) .news-img { background: linear-gradient(135deg, #0f4a3a, #237360); }
+    .news-img-inner {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 10px; padding: 20px;
+    }
+    .news-source-badge {
+      background: rgba(255,255,255,.12);
+      color: #a8e6cf; font-size: 11px; font-weight: 700;
+      letter-spacing: 1.5px; text-transform: uppercase;
+      padding: 4px 12px; border-radius: 12px;
+    }
+    .news-icon {
+      font-size: 36px; line-height: 1;
+    }
+    .news-img-label {
+      color: rgba(255,255,255,.6); font-size: 11px;
+      text-align: center; letter-spacing: .5px;
+    }
     .news-body { padding: 18px 20px; }
     .news-meta { font-size: 12px; color: var(--teal); font-weight: 500; margin-bottom: 8px; }
     .news-body h4 { font-size: 15px; font-weight: 600; line-height: 1.4; margin-bottom: 8px; }
@@ -1131,57 +1147,48 @@
     </div>
     <div class="news-grid">
       <div class="news-card">
-        <div class="news-img"></div>
+        <div class="news-img" style="position:relative;">
+          <div class="news-img-inner">
+            <div class="news-icon">🌿</div>
+            <div class="news-source-badge">Packaging Dive</div>
+            <div class="news-img-label">Industry Report · Jan 2024</div>
+          </div>
+        </div>
         <div class="news-body">
-          <div class="news-meta">2024-08-15 &bull; News</div>
-          <h4>Our Products Include Pulp Food Packaging</h4>
-          <p>Exploring our full range of pulp-based food packaging solutions for the modern food service industry.</p>
-          <a href="#" class="news-link">Read More &rarr;</a>
+          <div class="news-meta">January 4, 2024 &bull; Industry</div>
+          <h4>Bagasse Sweetens the Case for Compostable Packaging</h4>
+          <p>Sugarcane bagasse — an agricultural byproduct — is emerging as a leading sustainable material for compostable food service packaging, addressing plastic waste at scale.</p>
+          <a href="https://www.packagingdive.com/news/bagasse-sugarcane-compostable-packaging-food-service/703382/" target="_blank" rel="noopener" class="news-link">Read Article &rarr;</a>
         </div>
       </div>
       <div class="news-card">
-        <div class="news-img"></div>
+        <div class="news-img" style="position:relative;">
+          <div class="news-img-inner">
+            <div class="news-icon">♻️</div>
+            <div class="news-source-badge">Packaging Dive</div>
+            <div class="news-img-label">Retail News · Sep 2023</div>
+          </div>
+        </div>
         <div class="news-body">
-          <div class="news-meta">2024-06-20 &bull; Blog</div>
-          <h4>Bagasse Tableware: The Future of Sustainable Dining</h4>
-          <p>How sugarcane bagasse is revolutionizing the single-use tableware industry with compostable alternatives.</p>
-          <a href="#" class="news-link">Read More &rarr;</a>
+          <div class="news-meta">September 21, 2023 &bull; Retail</div>
+          <h4>Walmart Takes Compostable Cutlery "Mainstream"</h4>
+          <p>Walmart introduces compostable cutlery under its Great Value brand — a landmark move bringing certified sustainable serviceware into everyday retail at scale.</p>
+          <a href="https://www.packagingdive.com/news/walmart-great-value-compostable-cutlery-bpi/694278/" target="_blank" rel="noopener" class="news-link">Read Article &rarr;</a>
         </div>
       </div>
       <div class="news-card">
-        <div class="news-img"></div>
-        <div class="news-body">
-          <div class="news-meta">2024-04-10 &bull; News</div>
-          <h4>E-BEE Biomaterial: Leading Green Innovation</h4>
-          <p>A closer look at how E-BEE continues to lead the charge in biodegradable disposable product manufacturing.</p>
-          <a href="#" class="news-link">Read More &rarr;</a>
+        <div class="news-img" style="position:relative;">
+          <div class="news-img-inner">
+            <div class="news-icon">📈</div>
+            <div class="news-source-badge">GlobeNewswire</div>
+            <div class="news-img-label">Market Research · Oct 2024</div>
+          </div>
         </div>
-      </div>
-      <div class="news-card">
-        <div class="news-img"></div>
         <div class="news-body">
-          <div class="news-meta">2023-12-05 &bull; Blog</div>
-          <h4>Cutlery Sets: Learn the Difference Between Types</h4>
-          <p>Understanding the differences in eco-friendly cutlery sets and which is best suited for your business needs.</p>
-          <a href="#" class="news-link">Read More &rarr;</a>
-        </div>
-      </div>
-      <div class="news-card">
-        <div class="news-img"></div>
-        <div class="news-body">
-          <div class="news-meta">2023-09-18 &bull; News</div>
-          <h4>R&amp;D of New Biodegradable Disposable Tableware</h4>
-          <p>Our research team unveils new material breakthroughs in next-generation compostable food containers.</p>
-          <a href="#" class="news-link">Read More &rarr;</a>
-        </div>
-      </div>
-      <div class="news-card">
-        <div class="news-img"></div>
-        <div class="news-body">
-          <div class="news-meta">2023-07-01 &bull; Blog</div>
-          <h4>Environmentally-Friendly Biodegradable Disposable Tableware</h4>
-          <p>Why businesses globally are switching to biodegradable options and how E-BEE supports this transition.</p>
-          <a href="#" class="news-link">Read More &rarr;</a>
+          <div class="news-meta">October 29, 2024 &bull; Market Research</div>
+          <h4>Biodegradable Tableware Market to Reach $21.5B by 2030</h4>
+          <p>The biodegradable disposable tableware market — valued at $9.27B in 2023 — is projected to grow at 10.79% CAGR, driven by tightening plastic regulations and rising consumer demand.</p>
+          <a href="https://www.globenewswire.com/news-release/2024/10/29/2970595/28124/en/Biodegradable-Disposable-Tableware-Market-Research-2024-2030-with-Analyst-Recommendations-Expand-Product-Range-and-Customization-Options-Promote-Circular-Economy-Practices.html" target="_blank" rel="noopener" class="news-link">Read Article &rarr;</a>
         </div>
       </div>
     </div>
