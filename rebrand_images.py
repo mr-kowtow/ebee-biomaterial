@@ -3,7 +3,7 @@
 Covers old E-BEE watermarks (top-left AND top-right) and stamps the
 new bee SVG logo in the TOP-RIGHT corner of all product images.
 """
-from PIL import Image
+from PIL import Image, ImageChops
 import os, shutil, subprocess
 
 IMG_DIR   = '/Users/rosh/Documents/ebee/images'
@@ -73,18 +73,51 @@ def process_image(filepath, logo):
     img = Image.open(filepath).convert('RGBA')
     w, h = img.size
 
-    # ── Erase old watermark only on white-background images (fill is invisible) ──
-    # Only erase the corner that actually contains the old coloured logo.
+    # ── Erase old watermark ──────────────────────────────────────────────────
     erase_w = min(190, int(w * 0.24))
     erase_h = min(210, int(h * 0.26))
+
+    def erase_logo_zone(x0, y0, x1, y1, ref_x, ref_y):
+        """Replace logo pixels in zone with background. Uses pixel-level diff
+        so only coloured logo pixels are overwritten; background texture stays."""
+        if not has_old_logo(img, x0, y0, x1, y1):
+            return
+        from PIL import ImageFilter
+        # Average background colour from a small clean region outside the zone
+        rx, ry = min(ref_x, w - 1), min(ref_y, h - 1)
+        samples = []
+        for dx in range(-10, 11, 5):
+            for dy in range(-10, 11, 5):
+                px = max(0, min(w-1, rx+dx))
+                py = max(0, min(h-1, ry+dy))
+                samples.append(img.getpixel((px, py))[:3])
+        bg_r = sum(s[0] for s in samples) // len(samples)
+        bg_g = sum(s[1] for s in samples) // len(samples)
+        bg_b = sum(s[2] for s in samples) // len(samples)
+
+        bg_solid  = Image.new('RGB', (x1 - x0, y1 - y0), (bg_r, bg_g, bg_b))
+        zone_rgb  = img.crop((x0, y0, x1, y1)).convert('RGB')
+        diff      = ImageChops.difference(zone_rgb, bg_solid)
+        # Lower threshold + dilation to catch anti-aliased logo edges
+        mask = diff.convert('L').point(lambda v: 255 if v > 18 else 0)
+        mask = mask.filter(ImageFilter.MaxFilter(7))   # expand ~3px to cover edges
+        fill = Image.new('RGBA', (x1 - x0, y1 - y0), (bg_r, bg_g, bg_b, 255))
+        img.paste(fill, (x0, y0), mask)
+
     if is_white_bg(img):
+        # White bg: fill entire logo zone with white (perfect, invisible)
         from PIL import ImageDraw as _ID
         draw = _ID.Draw(img)
-        white = (255, 255, 255, 255)
         if has_old_logo(img, 0, 0, erase_w, erase_h):
-            draw.rectangle([0, 0, erase_w, erase_h], fill=white)
+            draw.rectangle([0, 0, erase_w, erase_h], fill=(255, 255, 255, 255))
         if has_old_logo(img, w - erase_w, 0, w, erase_h):
-            draw.rectangle([w - erase_w, 0, w, erase_h], fill=white)
+            draw.rectangle([w - erase_w, 0, w, erase_h], fill=(255, 255, 255, 255))
+    else:
+        # Grey bg: pixel-level replacement — only logo pixels are overwritten
+        erase_logo_zone(0, 0, erase_w, erase_h,
+                        ref_x=erase_w + 30, ref_y=20)
+        erase_logo_zone(w - erase_w, 0, w, erase_h,
+                        ref_x=w - erase_w - 30, ref_y=20)
 
     # ── Stamp new bee logo TOP-RIGHT ─────────────────────────────────────────
     # Scale logo to ~25% of image width, max 200px
