@@ -36,8 +36,8 @@
   <!-- E-BEE wordmark -->
   <text x="64" y="26" font-family="'Inter', 'Helvetica Neue', Arial, sans-serif" font-size="20" font-weight="800" fill="#1a5c45" letter-spacing="-0.5">E-BEE</text>
 
-  <!-- Bioproducts sub-text -->
-  <text x="64" y="41" font-family="'Inter', 'Helvetica Neue', Arial, sans-serif" font-size="10" font-weight="500" fill="#3aaa8a" letter-spacing="2.5">BIOPRODUCTS</text>
+  <!-- Tableware sub-text -->
+  <text x="64" y="41" font-family="'Inter', 'Helvetica Neue', Arial, sans-serif" font-size="10" font-weight="500" fill="#3aaa8a" letter-spacing="2.5">TABLEWARE</text>
 
   <!-- Leaf accent under wordmark -->
   <path d="M64 45 Q110 45 155 45" stroke="#3aaa8a" stroke-width="0.8" opacity="0.4" fill="none"/>
