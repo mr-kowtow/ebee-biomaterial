@@ -184,7 +184,7 @@
       <ul>
         <li><a href="/">Home</a></li>
         <li class="active">
-          <a href="products.html">Products &#9660;</a>
+          <a href="/products.html">Products &#9660;</a>
           <ul class="dropdown">
             <li><a href="#containers">Containers</a></li>
             <li><a href="#containers">Bowl</a></li>
@@ -192,8 +192,8 @@
             <li><a href="#plates">Plate</a></li>
           </ul>
         </li>
-        <li><a href="about.html">About Us</a></li>
-        <li><a href="contact.html">Contact Us</a></li>
+        <li><a href="/about.html">About Us</a></li>
+        <li><a href="/contact.html">Contact Us</a></li>
       </ul>
     </nav>
     <div class="header-contact">
@@ -272,9 +272,9 @@
     <div class="footer-col">
       <h4>Company</h4>
       <ul>
-        <li><a href="about.html">About Us</a></li>
+        <li><a href="/about.html">About Us</a></li>
         <li><a href="#">News &amp; Blog</a></li>
-        <li><a href="contact.html">Contact Us</a></li>
+        <li><a href="/contact.html">Contact Us</a></li>
       </ul>
     </div>
     <div class="footer-col">
@@ -319,7 +319,7 @@
     const short = p.description.length > 90 ? p.description.slice(0, 90) + '…' : p.description;
     const slug = PRODUCT_SLUGS[p.id] || p.id;
     return `
-      <div class="product-card" onclick="location.href='products/${slug}/'" role="link" tabindex="0">
+      <div class="product-card" onclick="location.href='/products/${slug}/'" role="link" tabindex="0">
         <div class="product-img">
           <img src="${p.image}" alt="${p.name}" loading="lazy" />
           <div class="view-overlay"><span>View Details</span></div>
